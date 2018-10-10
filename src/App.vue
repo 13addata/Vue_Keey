@@ -1,5 +1,5 @@
 <template>
-  <div id="body" v-cloak>
+  <div id="body" :class="{ hidden:showLogin}" v-cloak>
     <div class="headeradj"></div>
     <div class="pagetop">
       <div class="container">
@@ -27,21 +27,21 @@
           <tr>
             <th>
               <span>Navgation</span>
-              <a href="javascrip:void(0);" class="conf-btn" @click.prevent="delseen=!delseen">
+              <a href="javascript:void(0);" class="conf-btn" @click.prevent="delseen=!delseen">
                 <i class="fa fa-gear" title="manage shortcuts"></i>
               </a>
               <transition name="navtip">
                 <ul class="navtip" v-if="delseen">
-                  <li><a href="javascrip:void(0);"><i class="fa fa-user-circle navtip-icon"></i>PROFILE</a></li>
-                  <li><a href="javascrip:void(0);" @click.prevent="tools=!tools">
-                    <i class="fa fa-square-o navtip-icon"></i>
-                    <i class="fa fa-check-square-o navtip-icon" v-if="tools"></i>TOOLS
+                  <li><a href="javascript:void(0);" @click.stop="showLogin=!showLogin"><i class="fa fa-user-circle navtip-icon"></i>Login</a></li>
+                  <li><a href="javascript:void(0);" @click.prevent="tools=!tools">
+                    <i class="fa fa-toggle-off navtip-icon" v-if="!tools"></i>
+                    <i class="fa fa-toggle-on navtip-icon" v-if="tools"></i>TOOLS
                   </a></li>
-                  <li><a href="javascrip:void(0);" @click.prevent="others=!others">
-                    <i class="fa fa-square-o navtip-icon"></i>
-                    <i class="fa fa-check-square-o navtip-icon" v-if="others"></i>OTHERS
+                  <li><a href="javascript:void(0);" @click.prevent="others=!others">
+                    <i class="fa fa-toggle-off navtip-icon" v-if="!others"></i>
+                    <i class="fa fa-toggle-on navtip-icon" v-if="others"></i>OTHERS
                   </a></li>
-                  <a href="javascrip:void(0);" id="close" @click.prevent="delseen=!delseen"><i class="fa fa-times"></i></a>
+                  <a href="javascript:void(0);" id="close" @click.prevent="delseen=!delseen"><i class="fa fa-times"></i></a>
                 </ul>
               </transition>
             </th>
@@ -54,7 +54,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -66,7 +66,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -78,7 +78,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -90,7 +90,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -102,7 +102,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -114,7 +114,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -126,7 +126,7 @@
                   <img class="site-logo" :src="sc.icon">
                   <span>{{ sc.name }}</span>
                 </a>
-                <a href="javascrip:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
+                <a href="javascript:void(0);" class="btn-delete fa fa-times" @click.prevent="del(index)" v-if="delseen"></a>
               </div>
             </td>
           </tr>
@@ -135,14 +135,14 @@
     </div>
     <div v-clickoutside="panelClose">
 <!-- ===============PanelToggleButton=============== -->
-      <a href="javascrip:void(0);" @click.prevent="showPanel = !showPanel" class="panelbtn" id="enterbtn"><i class="fa fa-anchor" ></i></a>
+      <a href="javascript:void(0);" @click.prevent="showPanel = !showPanel" class="panelbtn" id="enterbtn"><i class="fa fa-anchor" ></i></a>
 <!-- ===============Panel================ -->
     
     <transition name="sidetrans">
       <div class="panel" v-show="showPanel">
       <div class="side-header">
         <h3><i class="fa fa-cog" style="color: #324b4e"></i>&nbsp SETTINGS</h3>
-        <a href="javascrip:void(0);" class="panelbtn" @click.prevent="showPanel = !showPanel"><i class="fa fa-times"></i></a>
+        <a href="javascript:void(0);" class="panelbtn" @click.prevent="showPanel = !showPanel"><i class="fa fa-times"></i></a>
       </div>
 
       <div class="side-menu">
@@ -150,7 +150,7 @@
         <div class="side-menu-item clearfloat">
           <label>Use Google Search</label>
           <div class="switch-box">
-                <a href="javascrip:void(0);" class="slider" :class="{ on: google }" @click.prevent="google = !google"></a>
+                <a href="javascript:void(0);" class="slider" :class="{ on: google }" @click.prevent="google = !google"></a>
           </div>
         </div>
         <fieldset>
@@ -183,8 +183,28 @@
       </div>
     </transition>
     </div>
+
+    <!-- ===================Login================== -->
+    <div v-clickoutside="loginClose">
+      <transition name="logintrans">
+        <div class="loginbox" v-if="showLogin">
+          <h1>Keey</h1>
+          <div class="login-input">
+            <i class="fa fa-anchor"></i>
+            <input type="text" placeholder="Username">
+          </div>
+          <div class="login-input">
+            <i class="fa fa-lock"></i>
+            <input type="text" placeholder="Password">
+          </div>
+          <a href="javascript:void(0);" class="btn-login"><i class="fa fa-check"></i></a>
+        </div>
+      </transition>
+    </div>
+
+    <!-- =================Login End================ -->
+    <div class="logincover" v-if="showLogin"></div>
   </div>
-<!--     <router-view/> -->
 </template>
 
 <script>
@@ -198,6 +218,7 @@ export default {
           others: false,
           showPanel: false,
           delseen: false,
+          showLogin: false,
           google: true,
           isF: false,
           switchBox: "switch-box-slider",
@@ -275,13 +296,24 @@ export default {
     panelClose() {
       this.showPanel = false
     },
+    loginClose() {
+      this.showLogin = false
+    },
     linkfill() {
       this.link = 'https://'
     },
     createShortcut() {
-      var sc = { name: this.name, link: this.link, icon: this.link+"favicon.ico", group: this.group}
-      this.list.push(sc)
-      this.name = this.link =''
+      // var sc = { name: this.name, link: this.link, icon: this.link+"favicon.ico", group: this.group}
+      // this.list.push(sc)
+      // this.name = this.link =''
+      if (this.group == 'void'){
+        alert("Please select your group first!")
+      }
+      else {
+        var sc = { name: this.name, link: this.link, icon: this.link+"favicon.ico", group: this.group}
+        this.list.push(sc)
+        this.name = this.link =''
+      }
     },
     del(index) {
       this.list.splice(index,1);

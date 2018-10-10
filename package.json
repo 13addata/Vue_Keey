@@ -10,6 +10,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "koa": "^2.5.3",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
