@@ -162,8 +162,8 @@
             <input type="text" placeholder="Enter website address" v-model="link" @focus="linkfill">
 
             <p class="tips">Tip: <br>The address must begins with 
-              <b>"https://"</b> and ends with <b>"/"</b> or the icon will not be shown properly.</p><br>
-            <p class="tips">Example: https://www.google.com/</p>
+              <b>"https://"</b> or the icon will not be shown properly.</p><br>
+            <p class="tips">Example: https://www.google.com</p>
             <br>
 
             <select v-model="group" >
@@ -192,12 +192,12 @@
           <div class="login-input">
             <p>Are you sure you want to logout ?</p>
           </div>
-          <a href="javascript:void(0);" class="btn-login"><i class="fa fa-check"></i></a>
+          <a href="javascript:void(0);" class="btn-login" @click="userLogout"><i class="fa fa-check"></i></a>
         </div>
       </transition>
     </div>
-
     <!-- =================Login End================ -->
+    
     <div class="logincover" v-if="showLogin"></div>
   </div>
 </template>
@@ -233,14 +233,7 @@ export default {
           google: true,
           isF: false,
           switchBox: "switch-box-slider",
-          list: [
-          // {
-          //   name: 'Google',
-          //   link: 'https://www.google.com/',
-          //   icon: 'https://www.google.com/favicon.ico',
-          //   group: 'Favorite'
-          // }
-          ]
+          list: []
       }
   },
   methods : {
@@ -266,15 +259,6 @@ export default {
         console.log(err)
       })
     },
-    panelClose() {
-      this.showPanel = false
-    },
-    loginClose() {
-      this.showLogin = false
-    },
-    linkfill() {
-      this.link = 'https://'
-    },
     createShortcut() {
       if (this.group == 'void'){
         this.$notify({
@@ -283,14 +267,71 @@ export default {
           type: 'warning'
         });
       }
+      else if (this.link == '' || this.link == 'https://'){
+        this.$notify({
+          title: 'Warning',
+          message: 'Please enter the link first!',
+          type: 'warning'
+        });
+      }
       else {
-        var sc = { item_name: this.name, item_link: this.link, item_icon: this.link+"favicon.ico", group: this.group}
-        this.list.push(sc)
-        this.name = this.link =''
+        let sclist = {
+          id: this.id,
+          itemName: this.name,
+          itemLink: this.link,
+          itemIcon: this.link+"/favicon.ico",
+          group: this.group
+        }
+        this.$http.post('/api/list', sclist) //http.post request
+          .then((res) => {
+            if(res.status == 200){ 
+              this.$notify({
+                title: 'Success',
+                message: `New shortcut has been added to ${this.group}`,
+                type: 'success'
+              });
+              this.getItemList(); // refrash the list
+            }else{
+              this.$notify({ title: 'Error', message: 'Server error ', type: 'error' }); 
+            } // when res.status is not 202
+          }, (err) => {
+            this.$notify({ title: 'Error', message: 'Server error ', type: 'error' }); 
+            console.log(err) // no return; server error or request did not sent
+          })
+        this.name = this.link =''; // clear input boxes
       }
     },
     del(index) {
-      this.list.splice(index,1);
+        this.$http.delete('/api/list/'+ this.id + '/' + this.list[index].id)
+        .then((res) => {
+          if(res.status == 200){
+            this.$notify({
+              title: 'Removed',
+              message: `Shortcut has been removed`,
+              type: 'success'
+            });
+            this.getItemList();
+          }else{
+            this.$notify({ title: 'Error', message: 'Server error ', type: 'error' }); 
+          }
+        }, (err) => {
+          this.$notify({ title: 'Error', message: 'Server error ', type: 'error' });
+          console.log(err)
+        })
+    },
+    userLogout() {
+      sessionStorage.setItem('user-token',null);
+      this.$router.push('/')
+      this.$message({ title: 'Logged out', message: 'You have successfully logged out', type: 'info' });
+    },
+    linkfill() {
+      this.link = 'https://'
+    },
+    panelClose() {
+      this.showPanel = false
+    },
+    loginClose() {
+      this.showLogin = false
     },
     ifocus() {
       this.isF = true

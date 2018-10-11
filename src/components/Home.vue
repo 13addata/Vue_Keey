@@ -162,7 +162,7 @@
             <input type="text" placeholder="Enter website address" v-model="link" @focus="linkfill">
 
             <p class="tips">Tip: <br>The address must begins with 
-              <b>"https://"</b> and ends with <b>"/"</b> or the icon will not be shown properly.</p><br>
+              <b>"https://"</b> or the icon will not be shown properly.</p><br>
             <p class="tips">Example: https://www.google.com/</p>
             <br>
 
@@ -302,17 +302,17 @@ export default {
   },
   methods : {
     loginAcct() {
-      let obj = {
+      let logininfo = {
         name: this.account,
         password: this.password
       }
-      this.$http.post('/auth/user', obj) // post data to backend(Koa)
+      this.$http.post('/auth/user', logininfo) // post data to backend(Koa)
         .then((res) => { // data return from axios is in res.data
           if(res.data.success){ 
             sessionStorage.setItem('user-token',res.data.token); // store token in sessionStorage
             this.$message({ 
               type: 'success',
-              message: 'Login Successful！'
+              message: 'Login Successfully！'
             }); 
             this.$router.push('/homepage') // enter homepage
           }else{
@@ -334,15 +334,28 @@ export default {
       this.link = 'https://'
     },
     createShortcut() {
-      // var sc = { name: this.name, link: this.link, icon: this.link+"favicon.ico", group: this.group}
-      // this.list.push(sc)
-      // this.name = this.link =''
       if (this.group == 'void'){
-        alert("Please select your group first!")
+        this.$notify({
+          title: 'Warning',
+          message: 'Please select your group first!',
+          type: 'warning'
+        });
+      }
+      else if (this.link == '' || this.link == 'https://'){
+        this.$notify({
+          title: 'Warning',
+          message: 'Please enter the link first!',
+          type: 'warning'
+        });
       }
       else {
-        var sc = { name: this.name, link: this.link, icon: this.link+"favicon.ico", group: this.group}
+        var sc = { name: this.name, link: this.link, icon: this.link+"/favicon.ico", group: this.group}
         this.list.push(sc)
+        this.$notify({
+                title: 'Success',
+                message: `New shortcut has been added to ${this.group}`,
+                type: 'success'
+              })
         this.name = this.link =''
       }
     },
