@@ -577,6 +577,12 @@ table {
 	width: 40px;
 	font-size: 20px;
 }
+
+.loginbox .login-input p{
+	text-align: center;
+	width: 360px;
+	font-size: 16px;
+}
 .loginbox .login-input input{
 	width: 240px;
 	padding: 4px 10px;
@@ -601,7 +607,7 @@ table {
 
 .logintrans-enter, .logintrans-leave-to {
 	opacity: 0;
-	transform: translate(300px, -50%);
+	transform: translate(250px, -50%);
 }
 
 .logintrans-enter-active, .logintrans-leave-active {
