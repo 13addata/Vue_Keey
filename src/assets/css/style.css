@@ -614,3 +614,6 @@ table {
 	transition: all 0.6s ease;
 }
 
+::-webkit-scrollbar{width:1px;height:1px;}
+::-webkit-scrollbar-thumb{background:#49b1f5;}
+::-webkit-scrollbar-track{background-color:transparent}

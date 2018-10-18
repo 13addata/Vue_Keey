@@ -4,10 +4,13 @@ const Koa = require('koa')
 , logger = require('koa-logger') //import dependencies
 , auth = require('./routes/auth.js')      // import /auth
 , api = require('./routes/api.js') // import api
-, jwt = require('koa-jwt');
+, jwt = require('koa-jwt')
+, historyApiFallback = require('koa-history-api-fallback');
 
 const app = new Koa();
 const router = new koaRouter();
+const path =require('path')
+    , serve = require('koa-static');
 
 
 // let port = process.env.PORT
@@ -45,10 +48,15 @@ app.on('error', function(err, ctx){
 	console.log('server error', err);
 });
 
+app.use(serve(path.resolve('dist')));
+
 router.use('/auth', auth.routes()); //mount on koa-router, add /auth on url when any request from auth
 router.use("/api",jwt({secret: 'nyan-cat-rainbow'}),api.routes());
 
 app.use(router.routes());
+
+app.use(historyApiFallback()); 
+app.use(serve(path.resolve('dist')));
 
 app.listen(port,() => {
 	console.log(`Koa server started. Server is listening on port: ${port}`);
